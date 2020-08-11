@@ -1,4 +1,6 @@
 <!-- Navbar -->
+<?php include'Save.php'?>
+<?php include'modals.php'?>
   <nav class="main-header navbar navbar-expand navbar-light navbar-warning text-sm">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -21,7 +23,7 @@
     </form>
 
     <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ml-auto" hidden>
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -32,7 +34,7 @@
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="../../dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+              <img src="../images/EI.png" alt="User Avatar" class="img-size-50 mr-3 img-circle">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   Brad Diesel
@@ -48,7 +50,7 @@
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="../../dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+              <img src="../images/EI.png" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   John Pierce
@@ -115,12 +117,12 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar elevation-4 sidebar-dark-warning">
     <!-- Brand Logo -->
-    <a href="../../index3.html" class="brand-link">
-      <img src="../../dist/img/AdminLTELogo.png"
+    <a href="" class="brand-link">
+      <img src="../../images/EI.png"
            alt="AdminLTE Logo"
            class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">Eternal Investment</span>
     </a>
 
     <!-- Sidebar -->
@@ -128,10 +130,10 @@
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="../../images/EI.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a data-target="#modal-secondary" class="d-block  " data-toggle="modal"><?php echo $uname;?></a>
         </div>
       </div>
 
@@ -140,7 +142,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview">
+          <li class="nav-item has-treeview" hidden>
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
@@ -169,7 +171,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" hidden>
             <a href="../widgets.html" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
@@ -178,7 +180,7 @@
               </p>
             </a>
           </li>
-          <li class="nav-item has-treeview">
+          <li class="nav-item has-treeview" hidden>
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
@@ -232,7 +234,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item has-treeview">
+          <li class="nav-item has-treeview" hidden="">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
@@ -261,7 +263,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item has-treeview">
+          <li class="nav-item has-treeview" hidden>
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tree"></i>
               <p>
@@ -324,12 +326,12 @@
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-edit"></i>
               <p>
-                Forms
+                Staff
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+              <li class="nav-item" hidden>
                 <a href="../forms/general.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>General Elements</p>
@@ -338,16 +340,16 @@
               <li class="nav-item">
                 <a href="../forms/advanced.html" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Advanced Elements</p>
+                  <p>Daily Attendace</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item"hidden>
                 <a href="../forms/editors.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Editors</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item"hidden>
                 <a href="../forms/validation.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Validation</p>
@@ -355,7 +357,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item has-treeview">
+          <li class="nav-item has-treeview" hidden>
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
               <p>
@@ -384,8 +386,8 @@
               </li>
             </ul>
           </li>
-          <li class="nav-header">EXAMPLES</li>
-          <li class="nav-item">
+          <li class="nav-header" hidden>EXAMPLES</li>
+          <li class="nav-item" hidden>
             <a href="../calendar.html" class="nav-link">
               <i class="nav-icon far fa-calendar-alt"></i>
               <p>
@@ -394,7 +396,7 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" hidden>
             <a href="../gallery.html" class="nav-link">
               <i class="nav-icon far fa-image"></i>
               <p>
@@ -402,7 +404,7 @@
               </p>
             </a>
           </li>
-          <li class="nav-item has-treeview">
+          <li class="nav-item has-treeview"hidden>
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-envelope"></i>
               <p>
@@ -431,7 +433,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item has-treeview">
+          <li class="nav-item has-treeview" hidden>
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
@@ -490,7 +492,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item has-treeview">
+          <li class="nav-item has-treeview" hidden>
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-plus-square"></i>
               <p>
@@ -573,21 +575,24 @@
               </li>
             </ul>
           </li>
-          <li class="nav-header">MISCELLANEOUS</li>
-          <li class="nav-item">
-            <a href="https://adminlte.io/docs/3.0" class="nav-link">
-              <i class="nav-icon fas fa-file"></i>
-              <p>Documentation</p>
+          <li class="nav-header" hidden>MISCELLANEOUS</li>
+          <br>  
+          <br>  
+          <br>  
+          <li class="nav-item" >
+            <a href="../../logout.php" class="nav-link">
+              <i class="fa fa-fw fa-power-off"></i>
+              <p>Sign Out</p>
             </a>
           </li>
-          <li class="nav-header">MULTI LEVEL EXAMPLE</li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-header" hidden>MULTI LEVEL EXAMPLE</li>
+          <li class="nav-item" hidden>
+            <a href="#" class="nav-link" hidden>
               <i class="fas fa-circle nav-icon"></i>
               <p>Level 1</p>
             </a>
           </li>
-          <li class="nav-item has-treeview">
+          <li class="nav-item has-treeview" hidden>
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-circle"></i>
               <p>
@@ -639,26 +644,26 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" hidden>
             <a href="#" class="nav-link">
               <i class="fas fa-circle nav-icon"></i>
               <p>Level 1</p>
             </a>
           </li>
-          <li class="nav-header">LABELS</li>
-          <li class="nav-item">
+          <li class="nav-header" hidden>LABELS</li>
+          <li class="nav-item" hidden>
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-circle text-danger"></i>
               <p class="text">Important</p>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item"hidden>
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-circle text-warning"></i>
               <p>Warning</p>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item"hidden>
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-circle text-info"></i>
               <p>Informational</p>

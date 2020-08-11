@@ -1,7 +1,7 @@
 <?php 
 error_reporting(0);
 ini_set('display_errors', 0);
-include '../includes/functions.php';
+include '../_includes/functions.php';
 if (isset($_POST['filter'])) {
 	$column_display = $_POST['column_display'];
 	$check_columns = $_POST['check_columns'];
