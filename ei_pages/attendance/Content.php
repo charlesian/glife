@@ -495,7 +495,30 @@ if (strpos($str, 'Alabama') !== false) {
 </section>
 <!-- /.content -->
 </div>
+<script>
+		$(document).ready(function() {
+			var max_fields = 10;
+			var wrapper = $(".container1");
+			var add_button = $(".add_form_field");
 
+			var x = 1;
+			$(add_button).click(function(e) {
+				e.preventDefault();
+				if (x < max_fields) {
+					x++;
+            $(wrapper).append('<div><a href="#" class="delete btn btn-danger btn-xs">Delete</a><div style="padding-top:5px;"class="row "><div class="col-md-2 "><select name = "field[]" class="form-control select2 select2-purple" style="height:30px" ><option selected disabled>Select Field</option><option><?php echo columns($connect)?></option></select></div><div class="col-md-2"><div class="form-group" ><select name="operator[]" class="form-control select2 select2-purple" data-dropdown-css-class="select2-purple" style="height:30px""><option>is equal to</option><option>is not equal to</option><option>is less than</option><option>is less than or equal</option><option>is greater than</option><option>is greater than or equal</option></select></div></div><div class="col-md-2"><div class="form-group" ><input type="text" class="form-control" style="height: 31px;" name="value[]"></div></div><div class="col-md-2"><div class="form-group" ><div ></div></div></div></div></div>'); //add input box
+        } else {
+        	alert('You Reached the limits')
+        }
+    });
+
+			$(wrapper).on("click", ".delete", function(e) {
+				e.preventDefault();
+				$(this).parent('div').remove();
+				x--;
+			})
+		});
+	</script>
 
 						<!-- /.content -->
 						<script>
