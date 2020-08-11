@@ -16,7 +16,11 @@ if (isset($_POST['submit'])) {
     $row = mysqli_fetch_array($CheckIfExist);
     $access = $row['access'];
     $_SESSION['access'] = $access ;
-    $username = $_SESSION['access'];
+    $access = $_SESSION['access'];
+
+    $id = $row['id'];
+    $_SESSION['id'] = $id ;
+    $id = $_SESSION['id'];
     echo ("<SCRIPT LANGUAGE='JavaScript'>
       window.location.href='ei_pages/attendance/View.php';
       </SCRIPT>");
@@ -33,7 +37,7 @@ if (isset($_POST['submit'])) {
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Log in</title>
+  <title>Eternal Investment | Log in</title>
   <link rel="shortcut icon" type="image/png" href="images/EI.png">
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">

@@ -3,13 +3,13 @@
 <head>
   <title>Eternal Investment | Staff</title>
   <!-- header -->
-  <?php include '../includes/header.php' ?>
+  <?php include '../_includes/header.php' ?>
 </head>
 <!-- <body class="hold-transition sidebar-mini"> -->
   <body class="sidebar-mini sidebar-closed text-sm " style="height: auto;">
     <div class="wrapper">
       <!-- sidebar -->
-      <?php include '../includes/sidebar.php'; ?>
+      <?php include '../_includes/sidebar.php'; ?>
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -34,7 +34,7 @@
       <!-- /.content-wrapper -->
 
       <!-- footer -->
-      <?php include '../includes/footer.php' ?>
+      <?php include '../_includes/footer.php' ?>
 
       <script>
         $(function () {

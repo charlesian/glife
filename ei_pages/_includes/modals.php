@@ -14,6 +14,7 @@
               <br>  
               <label>Change Password</label>
               <input class="form-control"type="password" name="pword">
+              <input class="form-control"type="text" name="id" hidden value="<?php echo $id ?>">
             </div>
             <div class="modal-footer justify-content-between">
               <!-- <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button> -->
