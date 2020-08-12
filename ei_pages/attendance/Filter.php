@@ -40,7 +40,7 @@ if(!isset($_SESSION['uname'])){
           </div><!-- /.container-fluid -->
         </section>
         <!-- Main content -->
-        <?php require_once('Content.php') ?>
+        <?php require_once('ContentFilter.php') ?>
       </div>
       <!-- /.content-wrapper -->
 

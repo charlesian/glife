@@ -1,62 +1,71 @@
 <?php
 define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
 require_once 'library/PHPExcel/Classes/PHPExcel/IOFactory.php';
-$objPHPExcel = PHPExcel_IOFactory::load("library/export_dtr.xlsx");
-
+$objPHPExcel = PHPExcel_IOFactory::load("library/qwe.xlsx");
 $styleTop = array(
   'borders' => array(
-    'top' => array('style' => PHPExcel_Style_Border::BORDER_THIN),
+    'top' => array('style' => PHPExcel_Style_Border::BORDER_MEDIUM),
   ),
-  'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER)
 );
 
 $styleLeft = array(
   'borders' => array(
-    'left' => array('style' => PHPExcel_Style_Border::BORDER_THIN),
+    'left' => array('style' => PHPExcel_Style_Border::BORDER_MEDIUM),
   ),
-  'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER)
 );
 
 $styleRight = array(
   'borders' => array(
-    'right' => array('style' => PHPExcel_Style_Border::BORDER_THIN)
+    'right' => array('style' => PHPExcel_Style_Border::BORDER_MEDIUM)
   ),
-  'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER)
 );
 
 $stylebottom = array(
   'borders' => array(
-    'bottom' => array('style' => PHPExcel_Style_Border::BORDER_THIN)
+    'bottom' => array('style' => PHPExcel_Style_Border::BORDER_MEDIUM)
   ),
-  'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER)
 );
 
-$styleContent = array('font'  => array('size'  => 8, 'name'  => 'Calibri'),'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER));
+$objPHPExcel->setActiveSheetIndex()->setCellValue('B9','asd');
+// $objPHPExcel->setActiveSheetIndex()->setCellValue('D10',$mont);
+// $objPHPExcel->setActiveSheetIndex()->setCellValue('H10',$year);
 
-$styleContent2 = array('font'  => array('size'  => 8, 'name'  => 'Calibri'),'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT));
+// $row = 12;
 
-$styleContent3 = array('font'  => array('size'  => 8, 'name'  => 'Calibri'),'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT));
+// while($excelrow = mysqli_fetch_assoc($sql_items) ){
 
+//   $id = $excelrow["EMP_N"];
+//   $FIRST_M = $excelrow["FIRST_M"];  
+//   $MIDDLE_M = $excelrow["MIDDLE_M"];  
+//   $LAST_M = $excelrow["LAST_M"];
+//   $DIVISION_M = $excelrow["DIVISION_M"];
+//   $POSITION_M = $excelrow["POSITION_M"];
+//   $DESIGNATION_M = $excelrow["DESIGNATION_M"];
+//   $MOBILEPHONE = $excelrow["MOBILEPHONE"];
+//   $ALTER_EMAIL = $excelrow["ALTER_EMAIL"];
+//   $EMAIL = $excelrow["EMAIL"];
+//   $BIRTH_D = $excelrow["BIRTH_D"];
+//   $BIRTH = date('F d',strtotime($BIRTH_D));
 
-$styleHeader = array('font'  => array('bold'  => true, 'size'  => 11, 'name'  => 'Calibri'),'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER));
+//   $objPHPExcel->setActiveSheetIndex()->setCellValue('A'.$row,$FIRST_M);
+//   $objPHPExcel->setActiveSheetIndex()->setCellValue('B'.$row,$MIDDLE_M);
+//   $objPHPExcel->setActiveSheetIndex()->setCellValue('C'.$row,$LAST_M);
+//   $objPHPExcel->setActiveSheetIndex()->setCellValue('D'.$row,$DIVISION_M);
+//   $objPHPExcel->setActiveSheetIndex()->setCellValue('E'.$row,$POSITION_M);
+//   $objPHPExcel->setActiveSheetIndex()->setCellValue('F'.$row,$DESIGNATION_M);
+//   $objPHPExcel->setActiveSheetIndex()->setCellValue('G'.$row,$MOBILEPHONE);
+//   $objPHPExcel->setActiveSheetIndex()->setCellValue('H'.$row,$EMAIL);
+//   $objPHPExcel->setActiveSheetIndex()->setCellValue('I'.$row,$MOBILEPHONE);
+//   $objPHPExcel->setActiveSheetIndex()->setCellValue('J'.$row,$ALTER_EMAIL);
+//   $objPHPExcel->setActiveSheetIndex()->setCellValue('K'.$row,$BIRTH);
 
-$styleHeader2 = array('font'  => array('size'  => 11, 'name'  => 'Calibri'),'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER));
-
-include 'ei_pages/_includes/connek.php';
-
-$this_date = date('Y-m-d');
-
-$sql_items = mysqli_query($conn, "SELECT staff.full_name FROM tbl_attendance ta LEFT JOIN tbl_staff staff on staff.id = ta.staff_id WHERE ta.date LIKE '%$this_date%' ");
-
-
-$objPHPExcel->setActiveSheetIndex()->setCellValue('A14','asd');
-
-
-
+//   $objPHPExcel->getActiveSheet()->getRowDimension($row)->setRowHeight(-1);
+//   $row++;
+// }
 
 
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
-header('location: library/export_dtr.xlsx');
+header('location: qwe.xlsx');
 
 ?>

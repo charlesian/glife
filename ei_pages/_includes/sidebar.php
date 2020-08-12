@@ -338,7 +338,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../forms/advanced.html" class="nav-link active">
+                <a href="http://localhost/eternalinvestmentapp/ei_pages/attendance/View.php" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Daily Attendace</p>
                 </a>

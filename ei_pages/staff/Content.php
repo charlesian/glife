@@ -47,9 +47,6 @@ if (isset($_POST['filter'])) {
 	exit;
 
 
-	$filterfields = $first_fields.' AND '.$second_fields;
-
-	$str1 = implode('|', $field.''.$operator.''.$value);
 // [END] set the query filter
 
 // getting array from column display field 
@@ -81,9 +78,9 @@ if (isset($_POST['filter'])) {
 	<div style="padding-right: 15px;">
 		<div style="padding-left: 10px;">
 		</div>
-		<button class="btn  btn-default float-right" type="submit" name="filter" ><i class="fa fa-fw fa-ban"></i>Cancel</button>
+		<button class="btn  btn-default float-right" type="submit" name="" ><i class="fa fa-fw fa-ban"></i>Cancel</button>
 		<button class="btn  btn-outline-primary float-right" type="submit" name="filter" ><i class="fa fa-fw fa-eye"></i>Display</button>
-		<button class="btn  btn-info float-right" type="submit" name="filter" ><i class="fa fa-fw fa-save"></i>Save</button>
+		<button class="btn  btn-info float-right" type="submit" name="" ><i class="fa fa-fw fa-save"></i>Save</button>
 	</div>
 	<br><br>
 	<section class="content">

@@ -3,185 +3,89 @@ error_reporting(0);
 ini_set('display_errors', 0);
 include '../_includes/functions.php';
 
-$getID = mysqli_query($conn,"SELECT id FROM tbl_staff WHERE full_name = '$uname'");
-$rowid = mysqli_fetch_array($getID);
-$staff_id = $rowid['id'];
+$params = $_GET['params'];
+$columns = $_GET['columns'];
 
-$date_now = date('Y-m-d');
+echo $params;
+echo "<br>";
+echo $columns;
 
-$check = mysqli_query($conn,"SELECT staff_id FROM tbl_attendance WHERE staff_id = $staff_id AND date LIKE '%$date_now%' ");
-
-$chktriger = mysqli_query($conn,"SELECT triggerA FROM tbl_trigger LIMIT 1");
-$rowtr = mysqli_fetch_array($chktriger);
-$triggerA = $rowtr['triggerA'];
-
-if (isset($_POST['start'])) {
-$update = mysqli_query($conn,"UPDATE tbl_trigger SET triggerA = 1");
-if ($update) {
-	echo ("<SCRIPT LANGUAGE='JavaScript'>
-		window.alert('Success : You may Start the Attendance!');
-		window.location.href='View.php';
-		</SCRIPT>");
-}
-}
-if (isset($_POST['end'])) {
-
-$update = mysqli_query($conn,"UPDATE tbl_trigger SET triggerA = 2");
-
-if ($update) {
-	echo ("<SCRIPT LANGUAGE='JavaScript'>
-		window.alert('Message : Attendance is now Close!');
-		window.location.href='View.php';
-		</SCRIPT>");
-}
-
-}
-
-if (isset($_POST['entry'])) {
-
-$update = mysqli_query($conn,"UPDATE tbl_trigger SET triggerA = 3");
-
-if ($update) {
-	echo ("<SCRIPT LANGUAGE='JavaScript'>
-		window.alert('Message : Attendance is now Open!');
-		window.location.href='View.php';
-		</SCRIPT>");
-}
-
-}
-if (isset($_POST['done'])) {
-
-$update = mysqli_query($conn,"UPDATE tbl_trigger SET triggerA = NULL");
-
-if ($update) {
-	echo ("<SCRIPT LANGUAGE='JavaScript'>
-		window.alert('Message : Attendance is now Done!');
-		window.location.href='View.php';
-		</SCRIPT>");
-}
-
-}
-if (isset($_POST['remarks_button'])) {
-$note = $_POST['note'];
-$attendance_id = $_POST['idC'];
-
-$update = mysqli_query($conn,"UPDATE tbl_attendance SET note = '$note' WHERE id = $attendance_id");
-
-if ($update) {
-	echo ("<SCRIPT LANGUAGE='JavaScript'>
-		window.alert('Message : Remarks is Set!');
-		window.location.href='View.php';	
-		</SCRIPT>");
-}
-
-}
-
-if (isset($_POST['update_remarks'])) {
-$note = $_POST['noteU'];
-$attendance_id = $_POST['idCu'];
-
-$update = mysqli_query($conn,"UPDATE tbl_attendance SET note = '$note' WHERE id = $attendance_id");
-
-if ($update) {
-	echo ("<SCRIPT LANGUAGE='JavaScript'>
-		window.alert('Message : Remarks Updated!');
-		window.location.href='View.php';	
-		</SCRIPT>");
-}
-
-}
-
-
-if (isset($_POST['stamp'])) {
-if ($triggerA == 3 ) {
-	$insert = mysqli_query($conn,"INSERT INTO tbl_attendance(staff_id,status) VALUES($staff_id,1)");
-
-}else{
-	$insert = mysqli_query($conn,"INSERT INTO tbl_attendance(staff_id) VALUES($staff_id)");
-}
-if ($insert) {
-	if ($triggerA == 3 ) {
-		# code...
-		echo ("<SCRIPT LANGUAGE='JavaScript'>
-			window.alert('Message : Your Not Time!');
-			window.location.href='View.php';
-			</SCRIPT>");
-	}else{
-		echo ("<SCRIPT LANGUAGE='JavaScript'>
-			window.alert('Success : Your on Time!');
-			window.location.href='View.php';
-			</SCRIPT>");
-	}
-}
-}
-
-?>
-<!-- filtering -->
-<?php 
-
-if (isset($_POST['filter'])) {
-	$column_display = $_POST['column_display'];
-	$check_columns = $_POST['check_columns'];
-	$check_columns = $_POST['check_columns'];
-	$filter1 = $_POST['filter1'];
-	$filter2 = $_POST['filter2'];
-
-// set the query filter
-	for($count = 0; $count < count($_POST["field"]); $count++){
-
-	// $field[] = $_POST['field'][$count];
-	// $operator[] = $_POST['operator'][$count];
-	// $value[] = $_POST['value'][$count];
-
-	// $field1[] = $_POST['field'][$count];
-	// $operator1[] = $_POST['operator'][$count];
-	// $value1[] = $_POST['value'][$count];
-
-		$field[] = $_POST['field'][$count] . " " . $_POST['operator'][$count]. " " . $_POST['value'][$count].' AND ';
-
-	// $params =  $field.' '.$operator.' '.$value.'AND';
-
-	}
-
-
-	$txt = implode(' ', $field);
-	$str= preg_replace('/\W\w+\s*(\W*)$/', '$1', $txt);
-
-		// echo ("<SCRIPT LANGUAGE='JavaScript'>
-  //     window.alert('Successfuly Saved!')
-  //     window.location.href = 'View.php?params=implode( '|', $field ),'|', implode( '|', $operator ),'|', implode( '|', $value );';
-  //     </SCRIPT>");
-	
- // $qwe = implode( '|', $field ),'|', implode( '|', $operator ),'|', implode( '|', $value );
- // $qwe2 = implode( '|', $field1 ),'|', implode( '|', $operator1 ),'|', implode( '|', $value1 );
-
-	// $output = $qwe.' '.$qwe2;
-
- // echo $output;
-
-
-
-// [END] set the query filter
-
-// getting array from column display field 
-	foreach ($column_display as $column) { 
-		$arr[] = $column;
-	}
-// [END] getting array from column display field 
-
-	$strC = implode('|', $arr);
-
-
-// this is finding if the value existing, will use for filtering table
 	if (strpos($str, 'Alabama') !== false) {
 		echo 'true';
 	}else{
 		echo "string";
 	}
 
-	echo ("<SCRIPT LANGUAGE='JavaScript'>
-      window.location.href = 'Filter.php?params=$str&columns=$strC';
-      </SCRIPT>");
+
+?>
+<!-- filtering -->
+<?php 
+
+if (isset($_POST['filter'])) {
+$column_display = $_POST['column_display'];
+$check_columns = $_POST['check_columns'];
+$check_columns = $_POST['check_columns'];
+$filter1 = $_POST['filter1'];
+$filter2 = $_POST['filter2'];
+
+// set the query filter
+for($count = 0; $count < count($_POST["field"]); $count++){
+
+// $field[] = $_POST['field'][$count];
+// $operator[] = $_POST['operator'][$count];
+// $value[] = $_POST['value'][$count];
+
+// $field1[] = $_POST['field'][$count];
+// $operator1[] = $_POST['operator'][$count];
+// $value1[] = $_POST['value'][$count];
+
+	$field[] = $_POST['field'][$count] . " " . $_POST['operator'][$count]. " " . $_POST['value'][$count].' AND ';
+
+// $params =  $field.' '.$operator.' '.$value.'AND';
+
+}
+
+
+$txt = implode(' ', $field);
+$str= preg_replace('/\W\w+\s*(\W*)$/', '$1', $txt);
+echo $str;
+exit;
+
+	// echo ("<SCRIPT LANGUAGE='JavaScript'>
+//     window.alert('Successfuly Saved!')
+//     window.location.href = 'View.php?params=implode( '|', $field ),'|', implode( '|', $operator ),'|', implode( '|', $value );';
+//     </SCRIPT>");
+
+// $qwe = implode( '|', $field ),'|', implode( '|', $operator ),'|', implode( '|', $value );
+// $qwe2 = implode( '|', $field1 ),'|', implode( '|', $operator1 ),'|', implode( '|', $value1 );
+
+// $output = $qwe.' '.$qwe2;
+
+// echo $output;
+
+exit;
+
+
+$filterfields = $first_fields.' AND '.$second_fields;
+
+$str1 = implode('|', $field.''.$operator.''.$value);
+// [END] set the query filter
+
+// getting array from column display field 
+foreach ($column_display as $column) { 
+	$arr[] = $column;
+}
+// [END] getting array from column display field 
+
+$str = implode('|', $arr);
+
+// this is finding if the value existing, will use for filtering table
+if (strpos($str, 'Alabama') !== false) {
+	echo 'true';
+}else{
+	echo "string";
+}
+// end of [this is finding if the value existing, will use for filtering table
 
 
 
@@ -190,8 +94,8 @@ if (isset($_POST['filter'])) {
 }
 
 ?>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
 <!-- /.col -->
@@ -444,116 +348,112 @@ if (isset($_POST['filter'])) {
 			<!-- /.tab-pane -->
 			<div class="tab-pane" id="timeline">
 				<!-- The timeline -->
+									<a class="btn btn-success float-right" href="Export.php" name="export" style="color:white"><i class="fa fa-fw fa-download"></i>Export</a>
 
 				<div style="padding-right: 15px;">
 	<div style="padding-left: 10px;">
 	</div>
-	<form method="POST">
-	<div style="padding-right: 15px;">
-		<div style="padding-left: 10px;">
-		</div>
-		<button disabled class="btn  btn-default float-right" type="submit" name="" ><i class="fa fa-fw fa-ban"></i>Cancel</button>
-		<button class="btn  btn-outline-primary float-right" type="submit" name="filter" ><i class="fa fa-fw fa-eye"></i>Display</button>
-		<button disabled class="btn  btn-info float-right" type="submit" name="" ><i class="fa fa-fw fa-save"></i>Save</button>
-	</div>
-	<br><br>
-	<section class="content">
-		<div class="container-fluid">
-			<!-- SELECT2 EXAMPLE -->
-			<div class="card card-default collapsed-card">
-				<div class="card-header">
-					<h3 class="card-title">Filter</h3>
+	<button class="btn  btn-default float-right" type="submit" name="filter" ><i class="fa fa-fw fa-ban"></i>Cancel</button>
+	<button class="btn  btn-outline-primary float-right" type="submit" name="filter" ><i class="fa fa-fw fa-eye"></i>Display</button>
+	<button class="btn  btn-info float-right" type="submit" name="filter" ><i class="fa fa-fw fa-save"></i>Save</button>
+</div>
+<br><br>
+<section class="content">
+	<div class="container-fluid">
+		<!-- SELECT2 EXAMPLE -->
+		<div class="card card-default collapsed-card">
+			<div class="card-header">
+				<h3 class="card-title">Filter</h3>
 
-					<!-- <div class="card-tools"> this will put to the right -->
-						<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
-						<!-- </div> -->
-					</div>
-					<!-- /.card-header -->
-					<div class="card-body">
-						<font>Uncheck [Custom Columns] checkbox to switch to filter default columns</font> <br>
-						<input type="checkbox"  name="filter1" checked id="pety" onclick='javascript:yesnoCheck();'> <strong>Custom Columns</strong>
-						<br>	
-						<br>	
-						<div class="container1 H1" >	
-							<div class="row ">
-								<div class="col-md-2  ">
-									<a class="add_form_field btn btn-info" style="color:white">Add filter	 &nbsp; 
-										<i class="fas fa-plus"></i>
-									</a>
-									
-									<br>	
-									<label style="padding-bottom: 5px;">&nbsp</label>
-									<select class=" select2 select2-purple" name="field[]" >
-										<option selected disabled>Select Field</option>
-										<option><?php echo columns($connect)?></option>
-									</select>
-									<!-- /.form-group -->
-								</div>
-								<!-- /.col -->
-								<div class="col-md-2">
-									<div class="form-group" >
-										<br>	
-										<br>	
-										<label>&nbsp</label>
-										<select name="operator[]" class="form-control select2 select2-purple" data-dropdown-css-class="select2-purple" style="width: 100%;">
-											<option>is equal to</option>
-											<option>is not equal to</option>
-											<option>is less than</option>
-											<option>is less than or equal</option>
-											<option>is greater than</option>
-											<option>is greater than or equal</option>
-										</select>
-									</div>
-									<!-- /.form-group -->
-								</div>
-								<div class="col-md-2">
-									<div class="form-group" >
-										<br>	
-										<br>	
-										<label>&nbsp</label>
-										<input type="text" class="form-control" style="height: 31px;" name="value[]">
-									</div>
-									<!-- /.form-group -->
-								</div>
-								<!-- /.col -->
-							</div>
-
-							<!-- /.row -->
-						</div>
-					</div>
-					<!-- /.card-body -->
+				<!-- <div class="card-tools"> this will put to the right -->
+					<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+					<!-- </div> -->
 				</div>
-				<!-- /.card -->
-				<div class="card card-default collapsed-card">
-					<div class="card-header">
-						<h3 class="card-title">Columns to Display</h3>
-						<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
-					</div>
-
-					<!-- /.card-header -->
-					<div class="card-body">
-						<!-- radio -->
-						<font>Uncheck [Custom Columns] checkbox to switch to default columns</font> <br>
-						<input type="checkbox" name="filter2" checked class="checkbox1" onclick='javascript:yesnoCheck1();' id="chk" value="2"> Custom Columns
-						<div class="row H2" >
-							<div class="col-12">
-								<div class="form-group">
-									<select class="duallistbox" multiple="multiple" name="column_display[]">
-										<option><?php echo columns($connect)?></option>
+				<!-- /.card-header -->
+				<div class="card-body">
+					<font>Uncheck [Custom Columns] checkbox to switch to filter default columns</font> <br>
+					<input type="checkbox"  name="filter1" checked id="pety" onclick='javascript:yesnoCheck();'> <strong>Custom Columns</strong>
+					<br>	
+					<br>	
+					<div class="container1 H1" >	
+						<div class="row ">
+							<div class="col-md-2  ">
+								<a class="add_form_field btn btn-info" style="color:white">Add filter	 &nbsp; 
+									<i class="fas fa-plus"></i>
+								</a>
+								
+								<br>	
+								<label style="padding-bottom: 5px;">&nbsp</label>
+								<select class=" select2 select2-purple" name="field[]" >
+									<option selected disabled>Select Field</option>
+									<option><?php echo columns($connect)?></option>
+								</select>
+								<!-- /.form-group -->
+							</div>
+							<!-- /.col -->
+							<div class="col-md-2">
+								<div class="form-group" >
+									<br>	
+									<br>	
+									<label>&nbsp</label>
+									<select name="operator[]" class="form-control select2 select2-purple" data-dropdown-css-class="select2-purple" style="width: 100%;">
+										<option>is equal to</option>
+										<option>is not equal to</option>
+										<option>is less than</option>
+										<option>is less than or equal</option>
+										<option>is greater than</option>
+										<option>is greater than or equal</option>
 									</select>
+								</div>
+								<!-- /.form-group -->
+							</div>
+							<div class="col-md-2">
+								<div class="form-group" >
+									<br>	
+									<br>	
+									<label>&nbsp</label>
+									<input type="text" class="form-control" style="height: 31px;" name="value[]">
 								</div>
 								<!-- /.form-group -->
 							</div>
 							<!-- /.col -->
 						</div>
+
 						<!-- /.row -->
 					</div>
-					<!-- /.card-body -->
 				</div>
-				<!-- /.card -->
+				<!-- /.card-body -->
+			</div>
+			<!-- /.card -->
+			<div class="card card-default collapsed-card">
+				<div class="card-header">
+					<h3 class="card-title">Columns to Display</h3>
+					<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+				</div>
 
-				<!-- end of form  -->
-			</form>
+				<!-- /.card-header -->
+				<div class="card-body">
+					<!-- radio -->
+					<font>Uncheck [Custom Columns] checkbox to switch to default columns</font> <br>
+					<input type="checkbox" name="filter2" checked class="checkbox1" onclick='javascript:yesnoCheck1();' id="chk" value="2"> Custom Columns
+					<div class="row H2" >
+						<div class="col-12">
+							<div class="form-group">
+								<select class="duallistbox" multiple="multiple" name="column_display[]">
+									<option><?php echo columns($connect)?></option>
+								</select>
+							</div>
+							<!-- /.form-group -->
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.card-body -->
+			</div>
+			</div>
+			<!-- /.tab-pane -->
+
 			<!-- /.tab-pane -->
 		</div>
 		<!-- /.tab-content -->
