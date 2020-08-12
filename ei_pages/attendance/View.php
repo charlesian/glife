@@ -52,6 +52,7 @@ if(!isset($_SESSION['uname'])){
           $("#example1").DataTable({
             "responsive": true,
             "autoWidth": false,
+            aLengthMenu: [ [100, 10, 20, -1], [100, 10, 20, "All"] ]
           });
           $('#example2').DataTable({
             "paging": true,

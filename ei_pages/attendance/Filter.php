@@ -28,7 +28,7 @@ if(!isset($_SESSION['uname'])){
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>Staff</h1>
+                <h1>Absent Staff</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -52,6 +52,7 @@ if(!isset($_SESSION['uname'])){
           $("#example1").DataTable({
             "responsive": true,
             "autoWidth": false,
+            aLengthMenu: [ [100, 10, 20, -1], [100, 10, 20, "All"] ]
           });
           $('#example2').DataTable({
             "paging": true,

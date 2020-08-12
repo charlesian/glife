@@ -8,6 +8,8 @@ $rowid = mysqli_fetch_array($getID);
 $staff_id = $rowid['id'];
 
 $date_now = date('Y-m-d');
+$date_time= date('Y-m-d H:i');
+
 
 $check = mysqli_query($conn,"SELECT staff_id FROM tbl_attendance WHERE staff_id = $staff_id AND date LIKE '%$date_now%' ");
 
@@ -93,12 +95,16 @@ if ($update) {
 
 
 if (isset($_POST['stamp'])) {
+
+
 if ($triggerA == 3 ) {
-	$insert = mysqli_query($conn,"INSERT INTO tbl_attendance(staff_id,status) VALUES($staff_id,1)");
+	$insert = mysqli_query($conn,"INSERT INTO tbl_attendance(staff_id,status,date) VALUES($staff_id,1,'$date_time')");
 
 }else{
-	$insert = mysqli_query($conn,"INSERT INTO tbl_attendance(staff_id) VALUES($staff_id)");
+	$insert = mysqli_query($conn,"INSERT INTO tbl_attendance(staff_id,date) VALUES($staff_id,'$date_time')");
 }
+
+
 if ($insert) {
 	if ($triggerA == 3 ) {
 		# code...
@@ -113,6 +119,9 @@ if ($insert) {
 			</SCRIPT>");
 	}
 }
+
+
+
 }
 
 ?>
@@ -214,7 +223,7 @@ if (isset($_POST['filter'])) {
 			<div class="card">
 				
 				<?php if ($access != NULL): ?>
-					<div class="col-md-2" style="padding-left: 30px;padding-top: 10px;">
+					<div class="col-md-4" style="padding-left: 30px;padding-top: 10px;">
 						<?php if ($triggerA == NULL): ?>
 							<div>
 								<button type="submit" name="start" class="btn btn-info btn-sm"><i class="fa fa-fw fa-play"></i>START</button>
@@ -237,6 +246,7 @@ if (isset($_POST['filter'])) {
 						<?php if ($triggerA == 3): ?>
 							<div>
 								<button type="submit" name="done" class="btn btn-success btn-sm"><i class="fa fa-fw fa-check-square"></i>Set Done</button>
+								<a href="Filter.php" name="done" class="btn btn-warning btn-sm float-right"><i class="fa  fa-close"></i><strong>People Not in the Meeting Now</strong></a>
 							</div>
 						<?php endif ?>
 						<br>
@@ -319,7 +329,7 @@ if (isset($_POST['filter'])) {
 									$status = $row["status"];
 									$remarks = $row["note"];
 									$date = $row["date"];
-									$attendance = date('d F   h:i A');
+									$attendance = date('d F   h:i A',strtotime($date));
 									?>
 									<tr>
 										<td>
