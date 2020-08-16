@@ -3,7 +3,7 @@
 if (isset($_POST['update_name'])) {
 	$pword = $_POST['pword'];
 	$id = $_POST['id'];
-	$Update = mysqli_query($conn,"UPDATE tbl_login SET id = '$id'");
+	$Update = mysqli_query($conn,"UPDATE tbl_login SET pword = '$pword' WHERE id = '$id'");
 
 	if ($Update) {
 		echo ("<SCRIPT LANGUAGE='JavaScript'>

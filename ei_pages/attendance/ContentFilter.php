@@ -3,7 +3,7 @@ error_reporting(0);
 ini_set('display_errors', 0);
 include '../_includes/functions.php';
 
-$date_time= date('Y-m-d H:i');
+$date_time= date('Y-m-d');
 if (isset($_POST['update_remarks'])) {
 $note = $_POST['noteU'];
 $attendance_id = $_POST['idCu'];
@@ -12,10 +12,37 @@ $update = mysqli_query($conn,"INSERT INTO tbl_attendance(staff_id,note,date) VAL
 
 if ($update) {
 	echo ("<SCRIPT LANGUAGE='JavaScript'>
-		window.alert('Message : Staff is Now in attendance!');
+		window.alert('Message : Staff is Now have attendance!');
 		window.location.href='Filter.php';	
 		</SCRIPT>");
 }
+
+}
+
+if (isset($_POST['remarks_button'])) {
+
+$note = $_POST['note22'];
+$attendance_id = $_POST['idC22'];
+
+
+$select = mysqli_query($conn,"SELECT staff_id FROM tbl_attendance_excuse WHERE staff_id = $attendance_id");
+if (mysqli_num_rows($select)>0) {
+	echo "UPDATE tbl_attendance_excuse SET excuse = '$note' WHERE id = $attendance_id AND date LIKE '%$date_time%'";
+$update = mysqli_query($conn,"UPDATE tbl_attendance_excuse SET excuse = '$note' WHERE staff_id = $attendance_id AND date LIKE '%$date_time%' ");
+}else{
+	echo "string";
+$update = mysqli_query($conn,"INSERT INTO tbl_attendance_excuse(staff_id,excuse,date) VALUES('$attendance_id','$note','$date_time')");
+if ($updates) {
+	echo ("<SCRIPT LANGUAGE='JavaScript'>
+		window.alert('Message : Reason/Remarks Inputed');
+		window.location.href='Filter.php';	
+		</SCRIPT>");
+
+}
+
+
+}
+
 
 }
 
@@ -52,6 +79,7 @@ if ($update) {
 									<tr>
 										<th width=""></th>
 										<th width="">Full Name</th>
+										<th width="">Reason/Remarks</th>
 										<th width="">Team</th>
 										<th width="">Status</th>
 										<th width="">Employee Level</th>
@@ -59,41 +87,41 @@ if ($update) {
 									</tr>
 								</thead>
 								<?php 
-								$select = mysqli_query($conn, "SELECT staff_id FROM tbl_attendance");
-								while ($rowSe = mysqli_fetch_assoc($select)) {
-									$staff_id[] = $rowSe['staff_id'];
-								}
-								$txt = implode(',', $staff_id);
+								$view_query = mysqli_query($conn, "SELECT ts.id,ts.full_name,ts.team,ts.status,ts.emp_level,ts.transition,te.excuse FROM tbl_staff ts LEFT JOIN tbl_attendance_excuse te on te.staff_id = ts.id WHERE ts.id NOT IN(SELECT ta.staff_id FROM tbl_attendance ta)");
 
-
-								$view_query = mysqli_query($conn, "SELECT * FROM tbl_staff WHERE id NOT IN(SELECT staff_id FROM tbl_attendance)");
-
-// 								pub_id NOT IN(
-// SELECT pub_id  FROM publisher);
 								while ($row = mysqli_fetch_assoc($view_query)) {
 									$id = $row["id"];
 									$full_name = $row["full_name"];  
 									$team = $row["team"];  
-									$staff_status = $row["staff_status"];  
 									$emp_level = $row["emp_level"];  
 									$transition = $row["transition"];  
 									$status = $row["status"];
 									$remarks = $row["note"];
+									$excuse = $row["excuse"];
 									$date = $row["date"];
 									$attendance = date('d F   h:i A');
 									?>
 									<tr>
 										<td>
 													<a data-toggle="modal" data-target="#modal-primary_<?php echo $row['id']; ?>" class=""><i class="fa fa-fw fa-reply"></i></a>
-										</td><td>
+										</td>
+										<td>
 											<?php echo $full_name;?>
 										</td>
 										
 											<td>
+												<?php if ($excuse != ''): ?>
+														<a data-toggle="modal" data-target="#modal-info_<?php echo $row['id']; ?>" class=""><i class="fa fa-edit"></i><strong><?php echo $excuse;?></strong></a>
+												
+													<?php else: ?>
+														<a data-toggle="modal" data-target="#modal-info_<?php echo $row['id']; ?>" class="btn btn-block btn-outline-primary btn-xs"><i class="fa fa-edit"></i>Absent</a>
+												<?php endif ?>
+											</td>
+											<td>
 												<strong><?php echo $team;?></strong>
 											</td>
 											<td>
-												<strong><?php echo $staff_status;?></strong>
+												<strong><?php echo $status;?></strong>
 											</td>
 											<td>
 												<strong><?php echo $emp_level;?></strong>
@@ -102,6 +130,9 @@ if ($update) {
 												<strong><?php echo $transition;?></strong>
 											</td>
 										</tr>
+
+
+
 
 	<div class="modal fade" id="modal-primary_<?php echo $row['id']; ?>">
         <div class="modal-dialog">
@@ -126,7 +157,29 @@ if ($update) {
         </div>
         <!-- /.modal-dialog -->
       </div>
-											
+	
+	<div class="modal  fade" id="modal-info_<?php echo $row['id']; ?>">
+												<!-- <div class="modal" data-target="#modal-info_<?php echo $row['id']; ?>"> -->
+													<div class="modal-dialog">
+														<div class="modal-content bg-info">
+															<div class="modal-header">
+																<h4 class="modal-title">Remarks/Reason</h4>
+																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																	<span aria-hidden="true">&times;</span></button>
+																</div>
+										<form method="POST">
+																<div class="modal-body">
+																	<input  class="form-control"type="text" name="note22" value="<?php echo $excuse; ?>">
+																	<input hidden class="form-control"type="text" name="idC22" value="<?php echo $id; ?>">
+																	<br>  
+																</div>
+																<div class="modal-footer justify-content-between">
+																	<button type="submit"  name ="remarks_button"class="btn btn-outline-light"><i class="fa fa-fw fa-save"></i>Save changes</button>
+											</form>
+															</div>
+														</div>
+														<!-- /.modal-content -->
+													</div>										
 												<!-- /.modal -->
 											<?php } ?>
 										</table>

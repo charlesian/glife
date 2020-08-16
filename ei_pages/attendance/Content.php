@@ -55,6 +55,23 @@ if (isset($_POST['done'])) {
 
 $update = mysqli_query($conn,"UPDATE tbl_trigger SET triggerA = NULL");
 
+$truncate = mysqli_query($conn,"TRUNCATE TABLE tbl_attendance");
+$truncate2 = mysqli_query($conn,"TRUNCATE TABLE tbl_attendance_excuse");
+
+
+// $selectstaff_id = mysqli_query($conn, "SELECT staff_id FROM tbl_attendance");
+
+// while ($rowSe = mysqli_fetch_assoc($selectstaff_id)) {
+// $staff_id11[] = $rowSe['staff_id'];
+
+// }
+// $txtstaff_id = implode(',', $staff_id11);
+
+// $view_query = mysqli_query($conn, "SELECT ts.id,ts.full_name,ts.team,ts.status,ts.emp_level,ts.transition FROM tbl_staff ts WHERE ts.id NOT IN(SELECT ta.staff_id FROM tbl_attendance ta WHERE ta.date LIKE '%$date_now%')");
+// while ($row = mysqli_fetch_assoc($view_query)) {
+
+// }
+
 if ($update) {
 	echo ("<SCRIPT LANGUAGE='JavaScript'>
 		window.alert('Message : Attendance is now Done!');
@@ -67,7 +84,7 @@ if (isset($_POST['remarks_button'])) {
 $note = $_POST['note'];
 $attendance_id = $_POST['idC'];
 
-$update = mysqli_query($conn,"UPDATE tbl_attendance SET note = '$note' WHERE id = $attendance_id");
+$update = mysqli_query($conn,"UPDATE tbl_attendance SET note = '$note' WHERE id = $attendance_id AND date LIKE '%$date_now%'");
 
 if ($update) {
 	echo ("<SCRIPT LANGUAGE='JavaScript'>
@@ -82,7 +99,7 @@ if (isset($_POST['update_remarks'])) {
 $note = $_POST['noteU'];
 $attendance_id = $_POST['idCu'];
 
-$update = mysqli_query($conn,"UPDATE tbl_attendance SET note = '$note' WHERE id = $attendance_id");
+$update = mysqli_query($conn,"UPDATE tbl_attendance SET note = '$note' WHERE id = $attendance_id AND date LIKE '%$date_now%'");
 
 if ($update) {
 	echo ("<SCRIPT LANGUAGE='JavaScript'>
