@@ -262,7 +262,7 @@ if (isset($_POST['filter'])) {
 
 						<?php if ($triggerA == 3): ?>
 							<div>
-								<button type="submit" name="done" class="btn btn-success btn-sm"><i class="fa fa-fw fa-check-square"></i>Set Done</button>
+								<button type="submit" name="done" class="btn btn-success btn-sm"><i class="fa fa-fw fa-check-square" onclick="return confirm('Confirm : Data will RESET,Are you sure the meeting is Done?');"></i>Set Done</button>
 								<a href="Filter.php" name="done" class="btn btn-warning btn-sm float-right"><i class="fa  fa-close"></i><strong>People Not in the Meeting Now</strong></a>
 							</div>
 						<?php endif ?>
