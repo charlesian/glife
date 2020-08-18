@@ -80,6 +80,20 @@ if ($update) {
 }
 
 }
+if (isset($_POST['submit'])) {
+$note = $_POST['note'];
+$attendance_id = $_POST['id'];
+
+$update = mysqli_query($conn,"UPDATE tbl_attendance SET note = '$note' WHERE id = $attendance_id AND date LIKE '%$date_now%'");
+
+if ($update) {
+	echo ("<SCRIPT LANGUAGE='JavaScript'>
+		window.alert('Message : Remarks Updated!');
+		window.location.href='View.php';	
+		</SCRIPT>");
+
+
+}
 if (isset($_POST['remarks_button'])) {
 $note = $_POST['note'];
 $attendance_id = $_POST['idC'];
@@ -95,18 +109,7 @@ if ($update) {
 
 }
 
-if (isset($_POST['update_remarks'])) {
-$note = $_POST['noteU'];
-$attendance_id = $_POST['idCu'];
 
-$update = mysqli_query($conn,"UPDATE tbl_attendance SET note = '$note' WHERE id = $attendance_id AND date LIKE '%$date_now%'");
-
-if ($update) {
-	echo ("<SCRIPT LANGUAGE='JavaScript'>
-		window.alert('Message : Remarks Updated!');
-		window.location.href='View.php';	
-		</SCRIPT>");
-}
 
 }
 
@@ -226,7 +229,6 @@ if (isset($_POST['filter'])) {
 	<div class="card-header p-2">
 		<ul class="nav nav-pills">
 			<li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Table</a></li>
-			<li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Filter/Settings</a></li>
 		</ul>
 	</div><!-- /.card-header -->
 	<div class="card-body">
@@ -238,12 +240,17 @@ if (isset($_POST['filter'])) {
 	<div class="">
 		<form method="POST">
 			<div class="card">
-				
+				<?php if ($access == NULL && $triggerA == NULL): ?>
+					<h3>Please Wait Until The Admin Click the <font class="btn btn-primary">Start Button</font> to start the attendance then click the DTR NOW button below</h3>
+					
+				<?php endif ?>
 				<?php if ($access != NULL): ?>
 					<div class="col-md-4" style="padding-left: 30px;padding-top: 10px;">
 						<?php if ($triggerA == NULL): ?>
 							<div>
+								<?php if ($access != NULL): ?>
 								<button type="submit" name="start" class="btn btn-info btn-sm"><i class="fa fa-fw fa-play"></i>START</button>
+								<?php endif ?>
 
 							</div>
 						<?php endif ?>
@@ -319,6 +326,34 @@ if (isset($_POST['filter'])) {
 									</div>
 								</div>
 							</form>
+							 <div class="container" >
+            <!-- Modal -->
+            <div class="modal fade" id="empModal" role="dialog">
+                <div class="modal-dialog">
+                
+                    <!-- Modal content-->
+                    <form method="POST">
+                    <div class="modal-content bg-info">
+                        <div class="modal-header">
+						  <h4 class="modal-title">Remarks</h4>
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                          
+                        </div>
+						  <div class="modal-footer justify-content-between">
+                          <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+						  <button type="submit" name="submit"class="btn btn-outline-light"><i class="fa fa-fw fa-save"></i>Save changes</button>
+                        </div>
+
+                        </form>
+                    </div>
+                  
+                </div>
+            </div>
+
+            <?php if ($access != NULL): ?>
+            	
 							<table id="example1" class="table table-bordered table-hover">
 								<thead>
 									<tr>
@@ -359,9 +394,10 @@ if (isset($_POST['filter'])) {
 										</td>
 										<td>
 											<?php if ($remarks != NULL): ?>
-													<a data-toggle="modal" data-target="#modal-primary_<?php echo $row['id']; ?>" class=""><i class="fa fa-edit"></i><u><?php echo $remarks;?></u></a>
+													<a data-id="<?php echo $id?>" class='userinfo'><i class="fa fa-edit"></i><u><?php echo $remarks;?></u></a>
 												<?php else: ?>
-													<a data-toggle="modal" data-target="#modal-info_<?php echo $row['id']; ?>" class="btn btn-block btn-outline-primary btn-xs"><i class="fa fa-edit"></i>Remarks</a>
+													<a data-id="<?php echo $id?>"  class="btn btn-block btn-outline-primary btn-xs userinfo"><i class="fa fa-edit"></i>Remarks</a>
+													
 												<?php endif ?>
 											</td>
 											<td>
@@ -383,83 +419,9 @@ if (isset($_POST['filter'])) {
 											</td>
 										</tr>
 										<!-- INSERT REMARKS -->
-											<div class="modal  fade" id="modal-info_<?php echo $row['id']; ?>">
-												<!-- <div class="modal" data-target="#modal-info_<?php echo $row['id']; ?>"> -->
-													<div class="modal-dialog">
-														<div class="modal-content bg-info">
-															<div class="modal-header">
-																<h4 class="modal-title">Remarks</h4>
-																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																	<span aria-hidden="true">&times;</span></button>
-																</div>
-										<form method="POST">
-																<div class="modal-body">
-																	<input  class="form-control"type="text" name="note" >
-																	<input hidden class="form-control"type="text" name="idC" value="<?php echo $id; ?>">
-																	<br>  
-																</div>
-																<div class="modal-footer justify-content-between">
-																	<button type="submit" id="<?php echo $id;?>" name ="remarks_button"class="btn btn-outline-light"><i class="fa fa-fw fa-save"></i>Save changes</button>
-											</form>
-															</div>
-														</div>
-														<!-- /.modal-content -->
-													</div>
-													<!-- /.modal-dialog -->
-												</div>
-
-
-	<div class="modal fade" id="modal-primary_<?php echo $row['id']; ?>">
-        <div class="modal-dialog">
-          <div class="modal-content bg-primary">
-            <div class="modal-header">
-              <h4 class="modal-title">Update Remarks</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span></button>
-            </div>
-										<form method="POST">
-            <div class="modal-body">
-              <input  class="form-control"type="text" name="noteU" value="<?php echo $remarks?>">
-			<input hidden class="form-control"type="text" name="idCu" value="<?php echo $id; ?>"><br>  
-            </div>
-            <div class="modal-footer justify-content-between">
-              <!-- <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button> -->
-              <button type="submit" name ="update_remarks" class="btn btn-outline-light"><i class="fa fa-fw fa-save"></i>Save changes</button>
-            </div>
-        </form>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-      </div>
-												<!-- UPDATE REMARKS -->
-												<div class="modal  fade" id="modal-info2_<?php echo $row['id']; ?>">
-												<!-- <div class="modal" data-target="#modal-info_<?php echo $row['id']; ?>"> -->
-													<div class="modal-dialog">
-														<div class="modal-content bg-info">
-															<div class="modal-header">
-																<h4 class="modal-title">Remarks</h4>
-																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																	<span aria-hidden="true">&times;</span></button>
-																</div>
-										<form method="POST">
-																<div class="modal-body">
-																	<input  class="form-control"type="text" name="note" value="<?php echo $remarks?>">
-																	<input hidden class="form-control"type="text" name="idC" value="<?php echo $id; ?>">
-																	<br>  
-																</div>
-																<div class="modal-footer justify-content-between">
-																	<button type="submit" id="<?php echo $id;?>" name ="remarks_button"class="btn btn-outline-light"><i class="fa fa-fw fa-save"></i>Save changes</button>
-											</form>
-															</div>
-														</div>
-														<!-- /.modal-content -->
-													</div>
-													<!-- /.modal-dialog -->
-												</div>
-												<!-- /.modal -->
 											<?php } ?>
 										</table>
+            <?php endif ?>
 									</div>
 									<!-- /.card-body -->
 								</div>
@@ -595,49 +557,26 @@ if (isset($_POST['filter'])) {
 </section>
 <!-- /.content -->
 </div>
-<script>
-		$(document).ready(function() {
-			var max_fields = 10;
-			var wrapper = $(".container1");
-			var add_button = $(".add_form_field");
+ <script type='text/javascript'>
+            $(document).ready(function(){
 
-			var x = 1;
-			$(add_button).click(function(e) {
-				e.preventDefault();
-				if (x < max_fields) {
-					x++;
-            $(wrapper).append('<div><a href="#" class="delete btn btn-danger btn-xs">Delete</a><div style="padding-top:5px;"class="row "><div class="col-md-2 "><select name = "field[]" class="form-control select2 select2-purple" style="height:30px" ><option selected disabled>Select Field</option><option><?php echo columns($connect)?></option></select></div><div class="col-md-2"><div class="form-group" ><select name="operator[]" class="form-control select2 select2-purple" data-dropdown-css-class="select2-purple" style="height:30px""><option>is equal to</option><option>is not equal to</option><option>is less than</option><option>is less than or equal</option><option>is greater than</option><option>is greater than or equal</option></select></div></div><div class="col-md-2"><div class="form-group" ><input type="text" class="form-control" style="height: 31px;" name="value[]"></div></div><div class="col-md-2"><div class="form-group" ><div ></div></div></div></div></div>'); //add input box
-        } else {
-        	alert('You Reached the limits')
-        }
-    });
+                $('.userinfo').click(function(){
+                   
+                    var userid = $(this).data('id');
 
-			$(wrapper).on("click", ".delete", function(e) {
-				e.preventDefault();
-				$(this).parent('div').remove();
-				x--;
-			})
-		});
-	</script>
+                    // AJAX request
+                    $.ajax({
+                        url: 'ajaxfile.php',
+                        type: 'post',
+                        data: {userid: userid},
+                        success: function(response){ 
+                            // Add response in Modal body
+                            $('.modal-body').html(response); 
 
-						<!-- /.content -->
-						<script>
-							function yesnoCheck() {
-								if ($('#pety').is(':checked')) {
-									$(".H2").hide();
-									$(".H1").show();
-								}else{
-									$(".H2").show();
-									$(".H1").hide();
-								}
-							}
-
-							function yesnoCheck1() {
-								if ($('#chk').is(':checked')) {
-									$(".H2").show();
-								}else{
-									$(".H2").hide();
-								}
-							}
-
-						</script>
+                            // Display Modal
+                            $('#empModal').modal('show'); 
+                        }
+                    });
+                });
+            });
+            </script>

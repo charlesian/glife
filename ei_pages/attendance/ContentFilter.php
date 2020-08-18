@@ -4,11 +4,13 @@ ini_set('display_errors', 0);
 include '../_includes/functions.php';
 
 $date_time= date('Y-m-d');
-if (isset($_POST['update_remarks'])) {
-$note = $_POST['noteU'];
-$attendance_id = $_POST['idCu'];
+$date_time2= date('Y-m-d h:i');
+if (isset($_POST['submit'])) {
 
-$update = mysqli_query($conn,"INSERT INTO tbl_attendance(staff_id,note,date) VALUES('$attendance_id','$note','$date_time')");
+$note = $_POST['note'];
+$attendance_id = $_POST['id'];
+
+$update = mysqli_query($conn,"INSERT INTO tbl_attendance(staff_id,note,date) VALUES('$attendance_id','$note','$date_time2')");
 
 if ($update) {
 	echo ("<SCRIPT LANGUAGE='JavaScript'>
@@ -21,16 +23,13 @@ if ($update) {
 
 if (isset($_POST['remarks_button'])) {
 
-$note = $_POST['note22'];
-$attendance_id = $_POST['idC22'];
-
+$note = $_POST['note'];
+$attendance_id = $_POST['id'];
 
 $select = mysqli_query($conn,"SELECT staff_id FROM tbl_attendance_excuse WHERE staff_id = $attendance_id");
 if (mysqli_num_rows($select)>0) {
-	echo "UPDATE tbl_attendance_excuse SET excuse = '$note' WHERE id = $attendance_id AND date LIKE '%$date_time%'";
 $update = mysqli_query($conn,"UPDATE tbl_attendance_excuse SET excuse = '$note' WHERE staff_id = $attendance_id AND date LIKE '%$date_time%' ");
 }else{
-	echo "string";
 $update = mysqli_query($conn,"INSERT INTO tbl_attendance_excuse(staff_id,excuse,date) VALUES('$attendance_id','$note','$date_time')");
 if ($updates) {
 	echo ("<SCRIPT LANGUAGE='JavaScript'>
@@ -74,6 +73,57 @@ if ($updates) {
 									<a class="btn btn-success float-right" onclick="Export()" id="btnExport" value="Export"  name="export" style="color:white"><i class="fa fa-fw fa-download"></i>Export</a>
 								<?php endif ?>
 							</form>
+
+							<div class="modal fade" id="empModal" role="dialog">
+								<div class="modal-dialog">
+
+									<!-- Modal content-->
+									<form method="POST">
+										<div class="modal-content bg-info">
+											<div class="modal-header">
+												<h4 class="modal-title">Remarks</h4>
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+											</div>
+											<div class="modal-body">
+
+											</div>
+											<div class="modal-footer justify-content-between">
+												<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+												<button type="submit" name="submit" class="btn btn-outline-light"><i class="fa fa-fw fa-save"></i>Save changes</button>
+											</div>
+
+										</form>
+									</div>
+
+								</div>
+							</div>
+
+
+							<div class="modal fade" id="empModal2" role="dialog">
+								<div class="modal-dialog">
+									
+									<!-- Modal content-->
+									<form method="POST">
+										<div class="modal-content bg-info">
+											<div class="modal-header">
+												<h4 class="modal-title">Remarks/Reason</h4>
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+											</div>
+											<div class="modal-body">
+												
+											</div>
+											<div class="modal-footer justify-content-between">
+												<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+												<button type="submit" name="remarks_button" class="btn btn-outline-light"><i class="fa fa-fw fa-save"></i>Save changes</button>
+											</div>
+
+										</form>
+									</div>
+									
+								</div>
+							</div>
+
+
 							<table id="example1" class="table table-bordered table-hover">
 								<thead>
 									<tr>
@@ -103,7 +153,7 @@ if ($updates) {
 									?>
 									<tr>
 										<td>
-													<a data-toggle="modal" data-target="#modal-primary_<?php echo $row['id']; ?>" class=""><i class="fa fa-fw fa-reply"></i></a>
+													<a data-id="<?php echo $id?>" class='userinfo'><i class="fa fa-fw fa-reply"></i></a>
 										</td>
 										<td>
 											<?php echo $full_name;?>
@@ -111,10 +161,10 @@ if ($updates) {
 										
 											<td>
 												<?php if ($excuse != ''): ?>
-														<a data-toggle="modal" data-target="#modal-info_<?php echo $row['id']; ?>" class=""><i class="fa fa-edit"></i><strong><?php echo $excuse;?></strong></a>
+														<a data-id="<?php echo $id?>" class='userinfo2'><i class="fa fa-edit"></i><strong><?php echo $excuse;?></strong></a>
 												
 													<?php else: ?>
-														<a data-toggle="modal" data-target="#modal-info_<?php echo $row['id']; ?>" class="btn btn-block btn-outline-primary btn-xs"><i class="fa fa-edit"></i>Absent</a>
+														<a data-id="<?php echo $id?>" class="userinfo3 btn btn-block btn-outline-primary btn-xs"><i class="fa fa-edit"></i>Absent</a>
 												<?php endif ?>
 											</td>
 											<td>
@@ -130,57 +180,6 @@ if ($updates) {
 												<strong><?php echo $transition;?></strong>
 											</td>
 										</tr>
-
-
-
-
-	<div class="modal fade" id="modal-primary_<?php echo $row['id']; ?>">
-        <div class="modal-dialog">
-          <div class="modal-content bg-primary">
-            <div class="modal-header">
-              <h4 class="modal-title">Remarks</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span></button>
-            </div>
-										<form method="POST">
-            <div class="modal-body">
-              <input  class="form-control"type="text" name="noteU" value="<?php echo $remarks?>">
-			<input hidden class="form-control"type="text" name="idCu" value="<?php echo $id; ?>"><br>  
-            </div>
-            <div class="modal-footer justify-content-between">
-              <!-- <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button> -->
-              <button type="submit" name ="update_remarks" class="btn btn-outline-light"><i class="fa fa-fw fa-save"></i>Save changes</button>
-            </div>
-        </form>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-      </div>
-	
-	<div class="modal  fade" id="modal-info_<?php echo $row['id']; ?>">
-												<!-- <div class="modal" data-target="#modal-info_<?php echo $row['id']; ?>"> -->
-													<div class="modal-dialog">
-														<div class="modal-content bg-info">
-															<div class="modal-header">
-																<h4 class="modal-title">Remarks/Reason</h4>
-																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																	<span aria-hidden="true">&times;</span></button>
-																</div>
-										<form method="POST">
-																<div class="modal-body">
-																	<input  class="form-control"type="text" name="note22" value="<?php echo $excuse; ?>">
-																	<input hidden class="form-control"type="text" name="idC22" value="<?php echo $id; ?>">
-																	<br>  
-																</div>
-																<div class="modal-footer justify-content-between">
-																	<button type="submit"  name ="remarks_button"class="btn btn-outline-light"><i class="fa fa-fw fa-save"></i>Save changes</button>
-											</form>
-															</div>
-														</div>
-														<!-- /.modal-content -->
-													</div>										
-												<!-- /.modal -->
 											<?php } ?>
 										</table>
 									</div>
@@ -204,3 +203,74 @@ if ($updates) {
 </section>
 <!-- /.content -->
 </div>
+ <script type='text/javascript'>
+            $(document).ready(function(){
+
+                $('.userinfo').click(function(){
+                   
+                    var userid = $(this).data('id');
+
+                    // AJAX request
+                    $.ajax({
+                        url: 'ajaxfile2.php',
+                        type: 'post',
+                        data: {userid: userid},
+                        success: function(response){ 
+                            // Add response in Modal body
+                            $('.modal-body').html(response); 
+
+                            // Display Modal
+                            $('#empModal').modal('show'); 
+                        }
+                    });
+                });
+            });
+            </script>
+
+            <script type='text/javascript'>
+            $(document).ready(function(){
+
+                $('.userinfo2').click(function(){
+                   
+                    var userid = $(this).data('id');
+
+                    // AJAX request
+                    $.ajax({
+                        url: 'ajaxfile3.php',
+                        type: 'post',
+                        data: {userid: userid},
+                        success: function(response){ 
+                            // Add response in Modal body
+                            $('.modal-body').html(response); 
+
+                            // Display Modal
+                            $('#empModal2').modal('show'); 
+                        }
+                    });
+                });
+            });
+            </script>
+
+               <script type='text/javascript'>
+            $(document).ready(function(){
+
+                $('.userinfo3').click(function(){
+                   
+                    var userid = $(this).data('id');
+
+                    // AJAX request
+                    $.ajax({
+                        url: 'ajaxfile4.php',
+                        type: 'post',
+                        data: {userid: userid},
+                        success: function(response){ 
+                            // Add response in Modal body
+                            $('.modal-body').html(response); 
+
+                            // Display Modal
+                            $('#empModal2').modal('show'); 
+                        }
+                    });
+                });
+            });
+            </script>
